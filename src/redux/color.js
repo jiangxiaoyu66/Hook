@@ -4,9 +4,8 @@ export const ColorContext = createContext({})
 
 const reducer = ( state, action) => {
     console.log(action)
-    switch (action) {
+    switch (action.type) {
         case 'updateColor':{
-            console.log(action.color) 
             return action.color
         }
         default:
@@ -16,8 +15,6 @@ const reducer = ( state, action) => {
 
 export const Color = props=>{
     const [color, dispatch] = useReducer(reducer, "blue");
-    console.log(222)
-    console.log(color)
     return (
         <ColorContext.Provider value={{color,dispatch}}>
             {props.children}

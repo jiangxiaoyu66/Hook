@@ -1,10 +1,8 @@
-import React, { useReducer, useContext } from "react";
-import { ColorContext, updateColor } from "./color";
+import React, { useContext,useMemo } from "react";
+import { ColorContext } from './color';
 
 function Buttons() {
   const { dispatch } = useContext(ColorContext);
-  console.log(111)
-  console.log(dispatch)
   return (
     <div>
       <button
@@ -21,7 +19,7 @@ function Buttons() {
         onClick={() => {
           dispatch({
             type: "updateColor",
-            color: "yelow"
+            color: "yellow"
           });
         }}
       >
