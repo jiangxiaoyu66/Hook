@@ -1,73 +1,94 @@
-// import React,{useState} from 'react';
+/*
+    useMemo基本使用：
+    1.单纯传参给子函数后
+    2.证明一下每次点击“刘能”按钮，赵四对应的方法都是执行，浪费了性能
+    3.使用useMemo解决问题，就不会每次浪费性能
+    总结：在父组件状态变化，子组件没有必要跟着改变状态的时候使用
+    4.讲一下useCallback和useMemo的异同点,介绍一下useCallback
+    5.讲一下useMemo和useEffect的区别（直接写个例子给大家看，用useEffect看一下效果
+    （个人认为useEffect可以实现useMemo的效果，但是还是分开比较好）
 
-// function Index() {
-//   const [appleState,setApple] = useState('苹果在树上')
-//   const [bananaState,setBanana] = useState('香蕉在树上')
-  
-
-//   return (
-//     <div>
-//       {/* 注意不能直接onClick={setApple('苹果在脑瓜子上')} */}
-//       <button onClick={() => setApple('苹果在地上')}>摇晃苹果树</button>
-//       <button onClick={() => setBanana('香蕉在地上')}>摇晃香蕉树</button>
-//       <Child apple={appleState}>{bananaState}</Child>
-//     </div>
-//   )
-// }
-
-// function Child({apple,children}) {
-//   function changeApple(apple){
-//     console.log('他来了，他来了，苹果向我们飞来了！')
-//     return apple+'向我们飞来了'
-//   }
-//   return(
-//     <div>
-//       <button>{changeApple}</button>
-//       {children}
-//     </div>
-//   )
-// }
-
-// export default Index
-
-import React , {useState,useMemo} from 'react';
+*/
+import React , {useState,useMemo, useCallback} from 'react';
 
 
 function Index(){
-    const [xiaohong , setXiaohong] = useState('小红待客状态')
-    const [zhiling , setZhiling] = useState('志玲待客状态')
+    const [zhaosi , setZhaosi] = useState('赵四待客状态')
+    const [liuneng , setLiuneng] = useState('刘能待客状态')
     return (
         <>
-            <button onClick={()=>{setXiaohong((new Date().getTime()))}}>小红</button>
-            <button onClick={()=>{setZhiling(new Date().getTime()+',志玲向我们走来了')}}>志玲</button>
-            <ChildComponent name={xiaohong}>{zhiling}</ChildComponent>
+            <button onClick={()=>{setZhaosi((new Date().getTime())+',赵四向我们走来了')}}>赵四</button>
+            <button onClick={()=>{setLiuneng(new Date().getTime()+',刘能向我们走来了')}}>刘能</button>
+            <ChildComponent name={zhaosi}>{liuneng}</ChildComponent>
         </>
     )
 }
 
+// 把"刘能"和"赵四"的状态通过参数和props.children的形式传给子函数
 function ChildComponent({name,children}){
-  function changeXiaohong(name){
-      console.log('她来了，她来了。小红向我们走来了')
-      return name+',小红向我们走来了'
-  }
+//   const changeZhaosi = (name) => {
+//       console.log(name,'他来了，他来了。赵四向我们走来了')
+//       return name+',赵四向我们走来了'
+//   }
 
-  const actionXiaohong = useMemo(() => 
-    changeXiaohong(name)
-  )
+//   我犯的错误，这里获取不到返回值，（）=>是一个表达式
+//   const actionZhaosi = useMemo(()=>{
+//     changeZhaosi(name)
+//   })
 
-  // const actionXiaohong = changeXiaohong(name)
- 
-  // const actionXiaohong = useMemo(()=>changeXiaohong(name),[name]) 
+
+// const actionZhaosi = useMemo(()=>changeZhaosi(name),[name]) 
+//   const actionZhaosi = useCallback(()=>console.log('执行了useCallback钩子'),[name]) 
+
+
   return (
       <>
-            {/* 不加useMemo，每次执行志玲都会执行小红的方法 */}
-          {/* 小红的状态 */}
-          <div>{actionXiaohong}</div>
-          {/* 志玲的状态 */}
+        {/* 不加useMemo，每次执行刘能都会执行赵四的方法 */}
+          <div>{name}</div>
+          {/* <div>{changeZhaosi(name)}</div> */}
+          {/* <div>{actionZhaosi}</div> */}
           <div>{children}</div>
       </>
   )
 }
+
+
+
+
+
+
+
+/*
+    使用use
+*/
+// function ChildComponent({name,children}){
+//     const changeZhaosi = (name) => {
+//         console.log('他来了，他来了。赵四向我们走来了')
+//         return name+',赵四向我们走来了'
+//     }
+  
+  
+//       /*
+//           useMemo和useCallback都会在组件第一次渲染的时候执行，之后会在其依赖的变量发生改变时再次执行；
+//           并且这两个hooks都返回缓存的值，useMemo返回缓存的变量，useCallback返回缓存的函数。
+//       */   
+  
+//       // const callback = useCallback(() => {
+//       //     console.log(name);
+//       // }, [name]);
+  
+   
+//     // const actionZhaosi = useMemo(()=>changeZhaosi(name),[name]) 
+//     return (
+//         <>
+//               {/* 不加useMemo，每次执行刘能都会执行赵四的方法 */}
+//             {/* 赵四的状态 */}
+//             <div>{changeZhaosi(name)}</div>
+//             {/* 刘能的状态 */}
+//             <div>{children}</div>
+//         </>
+//     )
+//   }
 
 export default Index;
 

@@ -8,16 +8,18 @@ import {BrowserRouter, Route, Link} from 'react-router-dom'
 
 /*使用useState*/
 
-// // function App() {
-// //   const  [count, addCount] = useState(0);
+/* useState基本使用 */
+// function App() {
+//   const  [count, addCount] = useState(0);
 
-// //   return (
-// //     <div>
-// //       <p>你已经点击了{count}次</p>
-// //       <button onClick={() => addCount(count+1)}>点击</button>
-// //     </div>
-// //   );
-// // }
+//   return (
+//     <div>
+//       <p>你已经点击了{count}次</p>
+//       <button onClick={() => addCount(count+1)}>点击</button>
+//     </div>
+//   );
+// }
+
 
 // class App extends React.Component {
 //   constructor(props){
@@ -47,10 +49,32 @@ import {BrowserRouter, Route, Link} from 'react-router-dom'
 // }
 
 
+/* useState和setState的区别 */
+// function App() {
+//   const  [count, addCount] = useState(0);
+
+//   return (
+//     <div>
+//       <p>你已经点击了{count}次</p>
+//       <button onClick={() => {
+//         addCount(count+1)
+//         console.log(count)
+//       }}>点击</button>
+//     </div>
+//   );
+// }
 
 
 
-/*使用useEffect*/
+
+/*使用useEffect：
+  解释一下副作用：对外部变量产生影响的叫做副作用，纯函数没有副作用（https://www.jianshu.com/writer#/notebooks/39505251/notes/56299215/preview）
+  抛出自己遇到的问题：
+  1.useEffect中文意思是使用副作用，但是只有useEffect时候才会产生副作用吗
+  2.和类组件中的有状态组件和无状态组件是一个概念吗（我认为是的）
+  一.介绍useEffect的基础用法
+  二.介绍useEffect的解绑，实现组件的卸载
+*/
 
 function App() {
   const  [count, addCount] = useState(0);
@@ -88,13 +112,18 @@ function App() {
           <li><Link to='/'>Home</Link></li>
           <li><Link to='/list-page'>ListPage</Link></li>
         </ul>
+        {/* 解绑的组件 */}
         <Route path='/' exact component={Home} />
+        {/* 这里是不解绑的组件 */}
         <Route path='/list-page' component={ListPage} />
       </BrowserRouter>
 
     </div>
   );
 }
+
+
+
 
 // class App extends React.Component {
 //   constructor(props){

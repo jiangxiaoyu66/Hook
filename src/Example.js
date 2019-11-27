@@ -3,6 +3,13 @@ import ExampleChild from './ExampleChild'
 
 export const CountContext = createContext()
 
+
+/* 
+  使用useContext传参：
+  1.创建Context并导出
+  2.使用provider发送，用consumer(标签)或者useContext(函数)接收
+*/
+
 // function Example(){
 //     const [ count , setCount ] = useState(0);
 //     return (
@@ -17,8 +24,22 @@ export const CountContext = createContext()
 //     )
 // }
 
-function Example(){
 
+
+
+
+
+
+
+
+
+/* 
+  使用useReducer处理数据：
+  1.回顾redux中redux如何实现的
+  2. 对比一下redux中，参数意义基本上是一致的
+*/
+
+function Example(){
   /* 
     redux中的reducer
   */
@@ -28,11 +49,12 @@ function Example(){
   // }
 
   /* 
-    react中的reducer
+    Hooks中的useReducer
       state，是上一个state
       action是发过来的指令
       前面数组中的count是返回的值
       dispatch是useReducer中的函数,参数就是发过来的action
+      最后的参数是state的默认值
 
       useReducer的第二个参数是初始状态
   */
@@ -50,11 +72,12 @@ function Example(){
     }
   }, 0)
   return (
+      // 这边其实扮演的是view层，上面的useReducer扮演的是reducer层
       <div>
           <p>You clicked {count} times</p>
           <button onClick={()=>{dispatch('add')}}>加法</button>
           <button onClick={()=>{dispatch('delete')}}>减法</button>
-
+          {/* context传值 */}
           <CountContext.Provider value={count}>
             <ExampleChild />
           </CountContext.Provider>

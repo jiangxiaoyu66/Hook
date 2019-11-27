@@ -1,9 +1,13 @@
 import React, { useRef } from "react";
 
 function Index() {
-  const inputValue = useRef(null);
+  // useRef就相当于类组件中的createRef()
+  const inputValue = useRef('xiaoxiao');
   const handleClick = () => {
     console.log(inputValue);
+    console.log(inputValue.current.focus);
+    console.log(inputValue.current.defaultValue);
+    console.log(inputValue.current.value);
   };
   return (
     <div>
